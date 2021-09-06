@@ -1,0 +1,26 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: "release"
+
+      - name: Create changelog
+        id: create_changelog
+        uses: scottbrenner/generate-changelog-action@master
+        with:
+          allow-unknown: true
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
